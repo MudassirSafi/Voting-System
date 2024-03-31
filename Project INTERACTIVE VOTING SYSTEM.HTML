@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Voting system</title>
+</head>
+<body>
+ <div id="message">Complete JavaScript Course</div>
+ <div>
+ <input type="text" id="addFriend">
+ <input type="button" id="addNew" value="Add Friend">
+ </div>
+ <table id="output"></table>
+ <script>
+   // Step 1: Create an array of people's names
+   var myArray = ["Mustafa Hassan", "Sajid", "Zaheer", "Asad", "Farman"];
+
+   // Step 2: Select page elements
+   var addFriendInput = document.getElementById("addFriend");
+   var addFriendButton = document.getElementById("addNew");
+   var outputTable = document.getElementById("output");
+
+   // Step 3: Add event listener to Add Friend button
+   addFriendButton.addEventListener("click", function() {
+     var newFriend = addFriendInput.value;
+     myArray.push(newFriend);
+     buildPageContent();
+     addFriendInput.value = "";
+   });
+
+   // Step 4: Build the content on the page
+   function buildPageContent() {
+     outputTable.innerHTML = ""; // Clear previous content
+     myArray.forEach(function(person, index) {
+       createTableRow(index + 1, person, 0);
+     });
+   }
+
+   // Step 5: Create main function to create page elements
+   function createTableRow(index, name, votes) {
+     var row = document.createElement("tr");
+     var indexCell = document.createElement("td");
+     var nameCell = document.createElement("td");
+     var votesCell = document.createElement("td");
+
+     indexCell.textContent = index;
+     nameCell.textContent = name;
+     votesCell.textContent = votes;
+
+     row.appendChild(indexCell);
+     row.appendChild(nameCell);
+     row.appendChild(votesCell);
+     outputTable.appendChild(row);
+
+     // Step 7: Add event listener to increase vote counter
+     row.addEventListener("click", function() {
+       var currentVotes = parseInt(votesCell.textContent);
+       currentVotes++;
+       votesCell.textContent = currentVotes;
+     });
+   }
+
+   // Step 6: Append table cells to the table row and row to the output area
+   function appendTableRow(row, cells) {
+     cells.forEach(function(cell) {
+       row.appendChild(cell);
+     });
+     outputTable.appendChild(row);
+   }
+
+   // Step 9: Update the last column with the new click counter
+   function updateVoteCounter(cell) {
+     var currentVotes = parseInt(cell.textContent);
+     currentVotes++;
+     cell.textContent = currentVotes;
+   }
+
+   // Initial page load
+   buildPageContent();
+ </script>
+</body>
+</html>
