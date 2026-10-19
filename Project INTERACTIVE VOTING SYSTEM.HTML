@@ -9,13 +9,14 @@
 <body>
  <div id="message">Complete JavaScript Course</div>
  <div>
- <input type="text" id="addFriend">
+ <input type="text" id="addFriend" aria-label="Candidate name" placeholder="Candidate name">
  <input type="button" id="addNew" value="Add Friend">
  </div>
  <table id="output"></table>
  <script>
    // Step 1: Create an array of people's names
    var myArray = ["Mustafa Hassan", "Sajid", "Zaheer", "Asad", "Farman"];
+   var votes = myArray.map(function() { return 0; });
 
    // Step 2: Select page elements
    var addFriendInput = document.getElementById("addFriend");
@@ -24,8 +25,13 @@
 
    // Step 3: Add event listener to Add Friend button
    addFriendButton.addEventListener("click", function() {
-     var newFriend = addFriendInput.value;
+     var newFriend = addFriendInput.value.trim();
+     if (!newFriend) {
+       addFriendInput.focus();
+       return;
+     }
      myArray.push(newFriend);
+     votes.push(0);
      buildPageContent();
      addFriendInput.value = "";
    });
@@ -34,7 +40,7 @@
    function buildPageContent() {
      outputTable.innerHTML = ""; // Clear previous content
      myArray.forEach(function(person, index) {
-       createTableRow(index + 1, person, 0);
+       createTableRow(index + 1, person, votes[index]);
      });
    }
 
@@ -58,6 +64,7 @@
      row.addEventListener("click", function() {
        var currentVotes = parseInt(votesCell.textContent);
        currentVotes++;
+       votes[index - 1] = currentVotes;
        votesCell.textContent = currentVotes;
      });
    }
